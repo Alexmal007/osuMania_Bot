@@ -203,15 +203,6 @@ namespace Amatsu
                         }
                     }
                 }
-                else if (message.StartsWith("~r"))
-                {
-                    Double pp = Osu.GetAveragePP("Full_Tablet");
-                    Log.Write(pp.ToString());
-                    var get_map = Data.GetMap(pp, "4");
-                    Log.Write(get_map);
-                    irc.SendReply(e.Data, get_map);
-                    Console.WriteLine("~");
-                }
             }
             catch (Exception ex)
             {

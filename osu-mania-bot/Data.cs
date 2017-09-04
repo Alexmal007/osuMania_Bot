@@ -50,6 +50,7 @@ namespace Amatsu
                 }
 
                 int n = rand.Next(0, scores.Count);
+
                 string map_id = scores[n];
                 string pp98 = scores[n].Remove(scores[n].LastIndexOf(','));
                 string pp95 = pp98.Remove(pp98.LastIndexOf(','));
