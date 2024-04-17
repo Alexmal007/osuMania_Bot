@@ -1,10 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace Amatsu
 {
-    class Log
+    public class Log
     {
         private static string _date {get; set;}
 

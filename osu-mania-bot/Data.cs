@@ -4,13 +4,18 @@ using System.IO;
 using RestSharp;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Amatsu
 {
     static class Data
     {
         public static Dictionary<string, Player> Players = new Dictionary<string, Player>();
-        public static string ApiKey = "Your api key";
+        public static string ApiKey = "52f27041373a243c9c038651d5526a31f92c2a85";
         private static List<string> _7keys = File.ReadAllLines("7keys.txt").ToList();
         private static List<string> _4keys = File.ReadAllLines("4keys.txt").ToList();
         private static List<string> _7keysDT = File.ReadAllLines("7keysDT.txt").ToList();
@@ -21,7 +26,6 @@ namespace Amatsu
             try
             {
                 var data = File.ReadLines("account.txt").ToList();
-                ApiKey = data[0].Split(':')[1].Replace("\r", "");
                 Program.username = data[1].Split(':')[1].Replace("\r", "");
                 Program.password = data[2].Split(':')[1].Replace("\r", "");
                 data.Clear();
@@ -29,7 +33,7 @@ namespace Amatsu
             }
             catch (FileNotFoundException ignore)
             {
-                File.WriteAllText("account.txt", "Your osu!api key (osu.ppy.sh/p/api):abcd1234\r\nYour username (osu.ppy.sh/p/irc):-_Alexmal_-\r\nYour password (osu.ppy.sh/p/irc):my_password");
+                File.WriteAllText("account.txt", "Your osu!api key (osu.ppy.sh/p/api):52f27041373a243c9c038651d5526a31f92c2a85\r\nYour username (osu.ppy.sh/p/irc):YABUTO_[Ellie]\r\nYour password (osu.ppy.sh/p/irc):06836b10");
                 LoadSettings();
                 Console.WriteLine("Please, edit accounts.txt with your account settings.");
             }

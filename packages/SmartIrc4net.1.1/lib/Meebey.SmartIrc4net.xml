@@ -217,7 +217,7 @@
         <member name="P:Meebey.SmartIrc4net.IrcConnection.ValidateServerCertificate">
              <summary>
              Specifies if the certificate of the server is validated
-             Default: true
+             Default: false
              </summary>
             </member>
         <member name="P:Meebey.SmartIrc4net.IrcConnection.SslClientCertificate">

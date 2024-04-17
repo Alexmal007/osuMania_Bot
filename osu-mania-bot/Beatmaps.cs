@@ -1,6 +1,6 @@
 ﻿namespace Amatsu
 {
-    class Beatmaps
+   public class Beatmaps
     {
         public string beatmapset_id { get; set; }
         public string beatmap_id { get; set; }

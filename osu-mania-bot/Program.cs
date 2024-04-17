@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading;
+using Meebey;
 using Meebey.SmartIrc4net;
 using System.Text;
 using System.Collections.Generic;
 
-namespace Amatsu
-{
-    class Program
-    {
+namespace Amatsu {
+    class Program {
         public static IrcClient irc = new IrcClient();
         public static List<string> users = new List<string>();
         public static List<string> last_map = new List<string>();
@@ -78,7 +77,6 @@ namespace Amatsu
 
             }
         }
-
         public static void OnQueryMessage(object sender, IrcEventArgs e)
         {
             Console.WriteLine(e.Data.Nick + ":" + e.Data.Message);
@@ -135,7 +133,7 @@ namespace Amatsu
                     {
                         Console.WriteLine("Too few arguments.");
                         Log.Write("Too few arguments.");
-                        irc.SendReply(e.Data, "Too few aruments. Command usage: !r [keys]. Example: !r 4");
+                        irc.SendReply(e.Data, "Too few arguments. Command usage: !r [keys]. Example: !r 4");
                     }
                     else
                     {
@@ -318,14 +316,12 @@ namespace Amatsu
                 }
             }
         }
-
         public static void OnError(object sender, ErrorEventArgs e)
         {
             Log.Write("Error: " + e.ErrorMessage);
             Console.WriteLine("Error: " + e.ErrorMessage);
             Exit();
         }
-
         public static void OnRawMessage(object sender, IrcEventArgs e)
         {
             if (!e.Data.RawMessage.Contains("QUIT")
@@ -340,7 +336,6 @@ namespace Amatsu
             }
 
         }
-
         public static void OnDisconnected(object sender, EventArgs e)
         {
             Console.WriteLine("Disconnected.");
@@ -348,43 +343,49 @@ namespace Amatsu
             Thread.Sleep(5000);
             Connect(username, password);
         }
-
         public static void Connect(string username, string pass, int port = 6667, string server = "irc.ppy.sh")
         {
             try
             {
                 irc.Connect(server, port);
-                irc.Login(username, username, 0, "", pass);
-                new Thread(new ThreadStart(ReadCommands)).Start();
-                irc.Listen();
             }
             catch (ConnectionException ex)
             {
                 Console.WriteLine("Couldn't connect, reason: " + ex);
                 Log.Write("Error: " + ex);
                 Thread.Sleep(10000);
-                Connect(username, pass, port, server);
+                Connect(username, pass);
+            }
+            try {
+                irc.Login(username, username, 0, username, pass);
+                new Thread(new ThreadStart(ReadCommands)).Start();
+                irc.Listen();
+            }
+            catch (ConnectionException ex) {
+                Console.WriteLine("Couldn't connect, reason: " + ex);
+                Log.Write("Error: " + ex);
+                Thread.Sleep(10000);
+                Connect(username, pass);
             }
         }
-
         static void Main(string[] args)
         {
-            irc.Encoding = Encoding.UTF8;
             Log.Init();
             Data.LoadSettings();
             Log.Write(username);
             Log.Write(password);
             Log.Write(Data.ApiKey);
             Console.Title = "Amatsu!";
-            irc.SendDelay = 200;
+            irc.SendDelay = 2000;
+            irc.ValidateServerCertificate = false;
+            irc.UseSsl = false;
+            irc.Encoding = Encoding.UTF8;
             irc.ActiveChannelSyncing = true;
             irc.OnQueryMessage += new IrcEventHandler(OnQueryMessage);
             irc.OnError += new ErrorEventHandler(OnError);
             irc.OnRawMessage += new IrcEventHandler(OnRawMessage);
             irc.OnQueryAction += new ActionEventHandler(OnQueryAction);
             irc.OnDisconnected += new EventHandler(OnDisconnected);
-            users.Add("-_Alexmal_-");
-            last_map.Add("425725");
             Connect(username, password);
         }
 
@@ -398,7 +399,7 @@ namespace Amatsu
 
                     if (cmd.StartsWith("/test"))
                     {
-                        irc.SendMessage(SendType.Message, "-_Alexmal_-", "Test command initiated.");
+                        irc.SendMessage(SendType.Message, "YABUTO [Ellie]", "Test command initiated.");
                     }
                     else if (cmd.StartsWith("/clear"))
                     {
@@ -425,7 +426,6 @@ namespace Amatsu
                 Console.WriteLine(ex);
             }
         }
-
         public static void Exit()
         {
             Console.WriteLine("Exiting...");

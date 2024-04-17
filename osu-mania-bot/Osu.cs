@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using RestSharp;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Linq;
 
 namespace Amatsu
 {
-    class Osu
+    public class Osu
     {
         public static List<double> GetPP(string username)
         {
